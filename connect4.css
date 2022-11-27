@@ -1,0 +1,82 @@
+/* game board table */
+ body {
+  background-image: url(https://i.pinimg.com/originals/d7/15/59/d71559139bb8fdec74491290994593d5.png);
+}
+#board td {
+    width: 50px;
+    height: 50px;
+    border: solid 1px whitesmoke;
+  }
+  h1 {
+    color: whitesmoke;
+    font-family: 'Cabin Sketch', cursive;
+    font-size: 4rem;
+    margin: auto;
+    text-align: center;
+    display: block;
+  }
+  
+ table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+  }
+
+  /* pieces are div within game table cells: draw as colored circles */
+  
+  .piece {
+    /* TODO: make into circles */
+    border-radius: 50%;
+    margin: 5px;
+    width: 80%;
+    height: 80%;
+
+  }
+  
+  /* TODO: make pieces red/blue,  depending on player 1/2 piece */ 
+  /* if currPlayer = 1, color = red; if currPlayer = 2, color = blue; - add class when designating playing 1 vs player 2 -- new div created everytime -duh. */
+
+  .piece.Eagles { 
+    background: url(https://i.etsystatic.com/22044032/r/il/34d42b/2789664016/il_fullxfull.2789664016_rocw.jpg);
+    background-size: 47px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .piece.Steelers {
+    background: url(https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Pittsburgh_Steelers_logo.svg/2048px-Pittsburgh_Steelers_logo.svg.png);
+    background-size: 50px;
+    background-position: center;
+  }
+
+  /* column-top is table row of clickable areas for each column */
+ 
+  #column-top td {
+    border: dashed 1px whitesmoke;
+  }
+  
+  #column-top td:hover {
+    background-color: #FFB612;
+    opacity: 75%;
+    cursor:pointer;
+  }
+  #column-top td:active {
+    background-color: #004C54;
+  }
+
+  div {
+    font-size: medium;
+    font-family: 'Cabin Sketch';
+    text-align: center;
+    color: whitesmoke;
+  }
+  #eagles {
+    height:80px;
+    border-radius: 60%;
+    display: inline-block;
+    opacity: 75%;
+  }
+  #steelers{
+    height: 80px;
+    display: inline-block;
+    opacity: 75%;
+  }
