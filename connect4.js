@@ -8,8 +8,8 @@
  const WIDTH = 7;
  const HEIGHT = 6;
  
- let currPlayer = "Eagles"; // active player: 1 or 2
- const board = []; // array of rows, each row is array of cells  (board[y][x]), where is this being fed into?
+ let currPlayer = "Eagles"; // active player: 1 or 2 (Eagles or Steelers)
+ const board = []; 
  
  /** makeBoard: create in-JS board structure:
   *    board = array of rows, each row is array of cells  (board[y][x])
@@ -18,12 +18,16 @@
  function makeBoard() {
    // TODO: set "board" to empty HEIGHT x WIDTH matrix array
    //should set the global board variable to be an array of 6 arrays (height), each containing 7 items (width) - board[y][x]
-   //for loop to populate subarrays  -- array of arrays; Array.from() converts iterables and Array-like values to Arrays. It treats holes as if they were undefined elements. We can use that to convert each hole to an undefined:]
-// The parameter {length: } is an Array-like object with length that contains only holes. https://2ality.com/2018/12/creating-arrays.html
+   //for loop to populate subarrays  -- array of arrays; Array.from() converts iterables and Array-like values to Arrays. 
+// The parameter {length: } is an Array-like object with length that contains only holes which turn into undefined spots in the array based on the variable given of WIDTH. https://2ality.com/2018/12/creating-arrays.html
    for (let i = 0; i < HEIGHT; i++) {
     board.push(Array.from({ length: WIDTH }));
   }
 }
+//Why wouldn't this work? --
+//  for (let i=0; i < HEIGHT; i++) {
+//   board = Array(WIDTH).fill(null);
+// }
  /** makeHtmlBoard: make HTML table and row of column tops. */
  
  function makeHtmlBoard() {
@@ -54,13 +58,11 @@
  }
  
  /** findSpotForCol: given column x, return top empty y (null if filled) */
- //somewhere, need to update board variable to reflect htmlBoard -- I think?
  function findSpotForCol(x) {
    // TODO: write the real version of this, rather than always returning 0
    //this will run again for the next x it's given so return null if there are no empty y's
-    //use board variable and get id with y,x array information, then add 1 to y to get the top empty y position -- fill board with player1 or player2 so you can check later if diag, horiz, or vert === currPlayer with each turn
+    //use board variable and get id with y,x array information, then subtract 1 from y to get the next empty y position -- fill board with player1 or player2 so you can check later if diag, horiz, or vert === currPlayer with each turn
     for (let y = HEIGHT - 1; y >= 0; y--) { //subtract 1 to work backwards
-      //x is defined as array index but next line cannot read properties of undefined of x
       if (!board[y][x]) { //if y and x aren't filled
         return y; //looking for y position
       }
@@ -72,16 +74,19 @@
  
  function placeInTable(y, x) {
    // TODO: make a div and insert into correct table cell 
-   //create new div and add (toggle?) class based on player1 or player2 to determine color. setAtritribute for .piece and .player1 - to start
+   //create new div and add class based on player1 or player2 to determine color. classList addition for .piece and .player1 - to start
    //add div to correct "td" cell in the board. identify correct table cell from findSpotForCol based on id of board then append the new div 
    //need to add color to cell to "set" it as the currPlayer's cell when checking for tie/win
     const piece = document.createElement("div");
     piece.classList.add("piece");
     piece.classList.add(`${currPlayer}`)
-
+    // const start = start at top x position
+    //const end = end at y,x
     const position = document.getElementById(`${y}-${x}`); //create a new position every time then reflect the updated board variable position
-    piece.style.transform = `${position}`;
-    piece.style.transition = 3;
+    // piece.animate([
+    //   {transform: `translateY${start}`}, 
+    //   {transform: `translateY${end}`},
+    // ])
     position.append(piece);
  }
  
@@ -96,7 +101,7 @@
  /** handleClick: handle click of column top to play piece */
  
  function handleClick(evt) {
-   // get x from ID of clicked cell
+   // get x from ID of clicked cell -- why the +?
    let x = +evt.target.id; 
  
    // get next spot in column (if none, ignore click)
@@ -117,8 +122,13 @@
  
    // check for tie
    // TODO: check if all cells in board are filled; if so call endGame
-   //if htmlBoard is full, aka # of divs with id of .piece equals however many squares there are WIDTHxHEIGHT -- but we're checking the board constant.
- 
+   //if board is full, aka # of divs with class of .piece equals however many squares there are WIDTHxHEIGHT --  since if there is not winner before the board is full, it's a tie
+   const totalCells = WIDTH * HEIGHT;
+   const pieces = document.querySelectorAll(".piece").length;
+   if (totalCells === pieces) {
+    alert("It's a draw!");
+    return location.reload();
+   }
    // switch players
    // TODO: switch currPlayer 1 <-> 2
    if (currPlayer === "Eagles") { 
@@ -151,12 +161,12 @@
  
    for (let y = 0; y < HEIGHT; y++) {
      for (let x = 0; x < WIDTH; x++) {
-       const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-       const vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
-       const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
-       const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
+       const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]]; //checking 4 x values across to see if they match player name
+       const vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]]; //checking 4 y values vertically to see if they match player names
+       const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]]; //checking diagonally toward the right
+       const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]]; //checking diagonally toward the left
  
-       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
+       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) { //underscore means private variable -- so using the _win function to check if any of the above variables are truthy
          return true;
        }
      }

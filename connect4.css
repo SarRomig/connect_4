@@ -1,6 +1,7 @@
 /* game board table */
  body {
-  background-image: url(https://i.pinimg.com/originals/d7/15/59/d71559139bb8fdec74491290994593d5.png);
+  background: url(https://i.pinimg.com/originals/d7/15/59/d71559139bb8fdec74491290994593d5.png) no-repeat center center fixed;
+  background-size: cover;
 }
 #board td {
     width: 50px;
@@ -30,7 +31,7 @@
     margin: 5px;
     width: 80%;
     height: 80%;
-
+    
   }
   
   /* TODO: make pieces red/blue,  depending on player 1/2 piece */ 
@@ -79,3 +80,6 @@
     display: inline-block;
     opacity: 75%;
   }
+
+
+  
