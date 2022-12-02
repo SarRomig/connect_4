@@ -31,12 +31,12 @@
    // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
     const htmlBoard = document.querySelector("#board");
    // TODO: add comment for this code
-   const top = document.createElement("tr"); //add new table row with column top id to have a dashed border and hover feature with gold background then adding a click listener to the top row of the table. handleClick will populate the player's piece within the given "x" column
+   const top = document.createElement("tr"); //add first table row with column top id to have a dashed border and hover feature with gold background then adding a click listener to the top row of the table. handleClick will populate the player's piece within the given "x" column
    top.setAttribute("id", "column-top");
-   top.addEventListener("click", handleClick);
+   top.addEventListener("click", handleClick); //addition of click listener to the top row of cells for piece drop down in game play
 
    for (let x = 0; x < WIDTH; x++) { 
-     const headCell = document.createElement("td");
+     const headCell = document.createElement("td"); //top cell for each column with "x" id then appended to the top tr
      headCell.setAttribute("id", x);
      top.append(headCell);
    }
@@ -44,10 +44,10 @@
  
    // TODO: add comment for this code
    for (let y = 0; y < HEIGHT; y++) { //If height = 6, this first for loop adds 6 new table rows
-     const row = document.createElement("tr");
+     const row = document.createElement("tr"); //creating a new row every time through the loop
      for (let x = 0; x < WIDTH; x++) { // this second for loop sets the cells into the table row as td's with the y,x attribute which will populate into findSpotForCol
-       const cell = document.createElement("td");
-       cell.setAttribute("id", `${y}-${x}`);
+       const cell = document.createElement("td"); 
+       cell.setAttribute("id", `${y}-${x}`); //id to be pulled later to determine positioning in table
        row.append(cell); //physically adds the new cells to each table row, 7 across because width = 7;
      }
      htmlBoard.append(row); //physically adds the new rows, 7 across, to the htmlBoard element
@@ -108,9 +108,9 @@
    }
  
    // place piece in board and add to HTML table
-   // TODO: add line to update in-memory board -- update currPlayer at board position
+   // TODO: add line to update in-memory board -- update currPlayer at board position 
    board[y][x] = currPlayer; //updates the value at x of y spot in global board variable to reflect the status of the currPlayer variable
-   placeInTable(y, x) //runs to update the
+   placeInTable(y, x) //runs to insert the new piece div based on currPlayer into the correct position in htmlTable
    // check for win
    if (checkForWin()) {
      return endGame(`The ${currPlayer} won Connect4!`);
@@ -118,7 +118,7 @@
  
    // check for tie
    // TODO: check if all cells in board are filled; if so call endGame
-   //if board is full, aka # of divs with class of .piece equals however many squares there are WIDTHxHEIGHT --  since if there is not winner before the board is full, it's a tie
+   //if board is full, aka # of divs with class of .piece equals however many squares there are (WIDTHxHEIGHT) --  if the board is full with still no winner (4 in a row) then it's a tie
    const totalCells = WIDTH * HEIGHT;
    const pieces = document.querySelectorAll(".piece").length;
    if (totalCells === pieces) {
@@ -155,7 +155,7 @@
  
    // TODO: read and understand this code. Add comments to help you.
  
-   for (let y = 0; y < HEIGHT; y++) {
+   for (let y = 0; y < HEIGHT; y++) { //setting height as the outer loop and x as inner loop to check the entire array matrix in all directions to see if there are 4 divs in a row with same "x" of currPlayer
      for (let x = 0; x < WIDTH; x++) {
        const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]]; //checking 4 x values across to see if they match player name
        const vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]]; //checking 4 y values vertically to see if they match player names
