@@ -37,7 +37,7 @@
   }
   
   /* TODO: make pieces red/blue,  depending on player 1/2 piece */ 
-  /* if currPlayer = 1, color = red; if currPlayer = 2, color = blue; - add class when designating playing 1 vs player 2 -- new div created everytime -duh. */
+  /* if currPlayer = 1, color = red; if currPlayer = 2, color = blue; - new div created everytime, add class when designating playing 1 vs player 2 (changed to logos to personalize). */
 
   .piece.Eagles { 
     background: url(https://i.etsystatic.com/22044032/r/il/34d42b/2789664016/il_fullxfull.2789664016_rocw.jpg);

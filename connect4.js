@@ -122,7 +122,7 @@
    const totalCells = WIDTH * HEIGHT;
    const pieces = document.querySelectorAll(".piece").length;
    if (totalCells === pieces) {
-    alert("It's a draw!");
+    endGame("It's a draw!");
     return location.reload();
    }
    // switch players
