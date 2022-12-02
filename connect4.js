@@ -8,7 +8,7 @@
  const WIDTH = 7;
  const HEIGHT = 6;
  
- let currPlayer = "Eagles"; // active player: 1 or 2 (Eagles or Steelers)
+ let currPlayer = "Eagles"; // active player: 1 or 2 (personalized to Eagles or Steelers)
  const board = []; 
  
  /** makeBoard: create in-JS board structure:
@@ -24,10 +24,7 @@
     board.push(Array.from({ length: WIDTH }));
   }
 }
-//Why wouldn't this work? --
-//  for (let i=0; i < HEIGHT; i++) {
-//   board = Array(WIDTH).fill(null);
-// }
+
  /** makeHtmlBoard: make HTML table and row of column tops. */
  
  function makeHtmlBoard() {
@@ -62,7 +59,7 @@
    // TODO: write the real version of this, rather than always returning 0
    //this will run again for the next x it's given so return null if there are no empty y's
     //use board variable and get id with y,x array information, then subtract 1 from y to get the next empty y position -- fill board with player1 or player2 so you can check later if diag, horiz, or vert === currPlayer with each turn
-    for (let y = HEIGHT - 1; y >= 0; y--) { //subtract 1 to work backwards
+    for (let y = HEIGHT - 1; y >= 0; y--) { //subtract 1 to work backwards through the table, y starts at HEIGHT - 1 because a new cell is added each time to the table so current y would be filled no matter what
       if (!board[y][x]) { //if y and x aren't filled
         return y; //looking for y position
       }
@@ -101,7 +98,7 @@
  /** handleClick: handle click of column top to play piece */
  
  function handleClick(evt) {
-   // get x from ID of clicked cell -- why the +?
+   // get x from ID of clicked cell
    let x = +evt.target.id; 
  
    // get next spot in column (if none, ignore click)
@@ -112,9 +109,8 @@
  
    // place piece in board and add to HTML table
    // TODO: add line to update in-memory board -- update currPlayer at board position
-   board[y][x] = currPlayer;
-   placeInTable(y, x);
- 
+   board[y][x] = currPlayer; //updates the value at x of y spot in global board variable to reflect the status of the currPlayer variable
+   placeInTable(y, x) //runs to update the
    // check for win
    if (checkForWin()) {
      return endGame(`The ${currPlayer} won Connect4!`);
@@ -147,7 +143,7 @@
      //  - cells: list of four (y, x) cells
      //  - returns true if all are legal coordinates & all match currPlayer
  
-     return cells.every(
+     return cells.every( // check every spot in the passed in argument to see if the array matches all conditions
        ([y, x]) =>
          y >= 0 &&
          y < HEIGHT &&
@@ -166,7 +162,7 @@
        const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]]; //checking diagonally toward the right
        const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]]; //checking diagonally toward the left
  
-       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) { //underscore means private variable -- so using the _win function to check if any of the above variables are truthy
+       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) { //compare _win function return values of each direction variable previously created. If any are true, return true that the game has been won
          return true;
        }
      }
